@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Form, Formik} from 'formik'
+import { Form, Formik } from 'formik'
 import { createBudgetRequest, getActorsRequest, getDirectorRequest, getGendersRequest } from '../api/presupuesto.api'
 import Alert from '../components/Alert'
 import { useBudgets } from '../context/BudgetContext'
 
 const BudgetForm = () => {
 
-    const [presupuesto, setPresupuesto] = useState({
+    const [budget, setBudget] = useState({
         name: "",
         clasificacion: "",
         puntuacion2: 0,
@@ -30,7 +30,7 @@ const BudgetForm = () => {
         {
             value: "PG-13",
             label: "Mayores de 13 años"
-        }, 
+        },
         {
             value: "R",
             label: "Obligatoria la compañia de un Adulto"
@@ -41,12 +41,11 @@ const BudgetForm = () => {
         }
     ]
 
-    const { getPresupuesto, updatePresupuesto } = useBudgets()
+    const { getBudget, createBudget, updateBudget } = useBudgets()
     const [error, setError] = useState({})
     const [showError, setShowError] = useState(false)
-    
-    // Estados para cargar información de los endpoints
-    const [generos, setGeneros] = useState([])
+
+    const [genres, setGenres] = useState([])
     const [directors, setDirectors] = useState([])
     const [actors, setActors] = useState([])
 
@@ -55,95 +54,90 @@ const BudgetForm = () => {
 
     const params = useParams()
     const navigate = useNavigate()
-    
+
     useEffect(() => {
-        const loadPresupuesto = async () => {
-            if(params.id){
-                const presupuesto = await getPresupuesto(params.id)
-                console.log(presupuesto)
-                setPresupuesto({
-                    name: presupuesto.name,
-                    link_trailer: presupuesto.link_trailer,
-                    clasificacion: presupuesto.clasificacion,
-                    puntuacion2: presupuesto.puntuacion,
-                    vista_general: presupuesto.vista_general,
-                    director_id: presupuesto.director_id[0],
+        const loadBudget = async () => {
+            if (params.id) {
+                const budget = await getBudget(params.id)
+
+                setBudget({
+                    name: budget.name,
+                    link_trailer: budget.link_trailer,
+                    clasificacion: budget.clasificacion,
+                    puntuacion2: budget.puntuacion,
+                    vista_general: budget.vista_general,
+                    director_id: budget.director_id[0],
                 })
 
-                setSelectedGenres(presupuesto.generos_ids.map(genero => genero.id));
-                setSelectedActors(presupuesto.actor_ids.map(actor => actor.id));
+                setSelectedGenres(budget.generos_ids.map(genre => genre.id));
+                setSelectedActors(budget.actor_ids.map(actor => actor.id));
             }
         }
 
-        async function loadDirectors (){
+        async function loadDirectors() {
             const response = await getDirectorRequest()
             setDirectors(response.data)
         }
 
-        async function loadActors (){
+        async function loadActors() {
             const response = await getActorsRequest()
             setActors(response.data)
         }
 
-        async function loadGenders (){
+        async function loadGenders() {
             const response = await getGendersRequest()
-            setGeneros(response.data)
+            setGenres(response.data)
         }
-        
-        loadPresupuesto();
+
+        loadBudget();
         loadDirectors()
         loadActors()
         loadGenders()
-    },[])
-    
-    console.log(actors)
-    console.log(generos)
+    }, [])
 
     return (
-        
+
         <div>
             <h1>
-                { params.id ? "Editar Presupuesto" : "Crear Presupuesto"}
-            </h1>    
+                {params.id ? "Editar Presupuesto" : "Crear Presupuesto"}
+            </h1>
             <Formik
-                initialValues={ presupuesto }
+                initialValues={budget}
                 enableReinitialize={true}
                 onSubmit={async (values, actions) => {
                     try {
-                        
+
                         values.generos_ids = selectedGenres;
                         values.actor_ids = selectedActors
-                        console.log(values)
-                        
-                        if(params.id){
-                            updatePresupuesto(params.id,values)
+
+                        if (params.id) {
+                            updateBudget(params.id, values)
                             navigate("/")
                         } else {
                             values.director_id = Number(values.director_id)
-                            const response = await createBudgetRequest(values)
-                            console.log(response)
+                            createBudget(values)
                         }
 
                         setSelectedGenres([])
                         actions.resetForm()
-                    } catch(error){
+                    } catch (error) {
                         setError(error)
                         setShowError(true)
                         console.log(error)
                     }
                 }}
             >
-                { ({handleChange, handleSubmit, values}) => (
+                {({ handleChange, handleSubmit, values }) => (
                     <Form onSubmit={handleSubmit}>
                         <div className='_formContainer'>
-                            { showError && <Alert message={error.message} type={'error'}/> }
+                            {showError && <Alert message={error.message} type={'error'} />}
 
                             <div className='_inputContainer'>
                                 <label>Nombre: </label>
-                                <input 
+                                <input
                                     type='text'
                                     name='name'
-                                    placeholder='Introducen el nombre' 
+                                    placeholder='Introducen el nombre'
                                     onChange={handleChange}
                                     value={values.name}
                                 />
@@ -151,44 +145,48 @@ const BudgetForm = () => {
 
                             <div className='_inputContainer'>
                                 <label>Clasificacion: </label>
-                                <select 
-                                    className='_select' 
-                                    id="clasificacionSelect" 
-                                    name="clasificacion" 
+                                <select
+                                    className='_select'
+                                    id="clasificacionSelect"
+                                    name="clasificacion"
                                     value={values.clasificacion}
-                                    onChange={handleChange} 
+                                    onChange={handleChange}
                                 >
                                     <option value="">-- Elija una clasificación --</option>
-                                    { clasificaciones.map(clas => <option key={clas.value} value={clas.value}>{clas.label}</option>) }
+                                    {
+                                        clasificaciones.map(clasificacion =>
+                                            <option key={clasificacion.value} value={clasificacion.value}>{clasificacion.label}</option>
+                                        )
+                                    }
                                 </select>
-                            </div>                               
+                            </div>
 
                             <div className='_inputContainer'>
                                 <label>Generos: </label>
-                                { generos.map(genero => (
-                                    <div key={genero.id}>
+                                {genres.map(genre => (
+                                    <div key={genre.id}>
                                         <input
                                             type="checkbox"
-                                            id={`gen-${genero.id}`}
-                                            value={genero.id}
-                                            checked={selectedGenres.includes(genero.id)}
+                                            id={`gen-${genre.id}`}
+                                            value={genre.id}
+                                            checked={selectedGenres.includes(genre.id)}
                                             onChange={(event) => {
                                                 const isChecked = event.target.checked;
                                                 if (isChecked) {
-                                                    setSelectedGenres([...selectedGenres, genero.id]);
+                                                    setSelectedGenres([...selectedGenres, genre.id]);
                                                 } else {
-                                                    setSelectedGenres(selectedGenres.filter((id) => id !== genero.id));
+                                                    setSelectedGenres(selectedGenres.filter((id) => id !== genre.id));
                                                 }
                                             }}
                                         />
-                                        <label htmlFor={`gen-${genero.id}`}>{genero.name}</label>
+                                        <label htmlFor={`gen-${genre.id}`}>{genre.name}</label>
                                     </div>
-                                ))} 
+                                ))}
                             </div>
 
                             <div className='_inputContainer'>
                                 <label>Puntuación</label>
-                                <input 
+                                <input
                                     type='number'
                                     min={0}
                                     max={100}
@@ -201,7 +199,7 @@ const BudgetForm = () => {
 
                             <div className='_inputContainer'>
                                 <label>Vista General: </label>
-                                <input 
+                                <input
                                     type='text'
                                     name='vista_general'
                                     placeholder='Introduce la la vista general'
@@ -212,7 +210,7 @@ const BudgetForm = () => {
 
                             <div className='_inputContainer'>
                                 <label>Trailer</label>
-                                <input 
+                                <input
                                     type='text'
                                     name='link_trailer'
                                     placeholder='Introduce el link de la pelicula'
@@ -223,12 +221,12 @@ const BudgetForm = () => {
 
                             <div className='_inputContainer'>
                                 <label>Director: </label>
-                                <select 
-                                    className='_select' 
-                                    id="directorSelect" 
-                                    name="director_id" 
+                                <select
+                                    className='_select'
+                                    id="directorSelect"
+                                    name="director_id"
                                     value={values.director_id}
-                                    onChange={handleChange} 
+                                    onChange={handleChange}
                                 >
                                     <option value="">-- Elija un Director --</option>
                                     {
@@ -241,7 +239,7 @@ const BudgetForm = () => {
 
                             <div className='_inputContainer'>
                                 <label>Actores: </label>
-                                { actors.map(actor => (
+                                {actors.map(actor => (
                                     <div key={actor.id}>
                                         <input
                                             type="checkbox"
@@ -259,7 +257,7 @@ const BudgetForm = () => {
                                         />
                                         <label htmlFor={`gen-${actor.id}`}>{actor.name}</label>
                                     </div>
-                                ))} 
+                                ))}
                             </div>
 
                             <button type='submit' className='_btnSubmit'>{params.id ? "Editar" : "Crear"}</button>

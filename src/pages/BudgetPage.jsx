@@ -3,20 +3,22 @@ import BudgetCard from '../components/BudgetCard'
 import { useBudgets } from '../context/BudgetContext'
 
 const BudgetPage = () => {
- 
-    const { presupuestos, loadPresupuestos } = useBudgets()
+
+    const { budgets, getBudgets } = useBudgets()
 
     useEffect(() => {
-        loadPresupuestos()
-    },[])
-
-    console.log(presupuestos)
+        getBudgets()
+    }, [])
 
     return (
         <div>
             <h1>Presupuestos</h1>
-            <div className='budget-container'>
-                { presupuestos?.map(presupuesto => <BudgetCard key={presupuesto.id} presupuesto={presupuesto}/>)}
+            <div className='_budgetContainer'>
+                {   
+                    budgets?.map(budget => 
+                        <BudgetCard key={budget.id} budget={budget} />
+                    )
+                }
             </div>
         </div>
     )

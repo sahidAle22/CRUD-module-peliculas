@@ -33,13 +33,13 @@ h1 {
     text-align: center;
 }
 
-.budget-container {
+._budgetContainer {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
 }
 
-.budget {
+._budget {
     background-color: #373b69;
     border-radius: 3px;
     overflow: hidden;
@@ -48,50 +48,50 @@ h1 {
     padding-bottom: 1rem;
 }
 
-.budget-info {
+._budgetInfo {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
 }
 
-.tag {
+._tag {
     background-color: #22254b;
     border-radius: 5px;
     padding: 1px 4px;
 }
 
-.tagGreen {
+._tagGreen {
     color: #7B9E89;
 }
 
-.tagOrange {
+._tagOrange {
     color: #F18805;
 }
 
-.tagRed {
+._tagRed {
     color: #D95D39;
 }
 
-.btns-container {
+._btnsContainer {
     display: flex;
     justify-content: center;
     padding: 0 1rem;
     flex-wrap: wrap;
 }
 
-.btn {
+._btn {
     padding: 4px 10px;
     margin: 4px 4px;
     border: none;
     border-radius: 4px;
 }
 
-.edit {
+._edit {
     background-color: #1EA896;
 }
 
-.delite {
+._delete {
     background-color: #FF715B;
 }
 

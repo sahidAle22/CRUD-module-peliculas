@@ -2,8 +2,9 @@ import { createContext, useContext, useState  } from 'react'
 import { 
     getBudgetsRequest, 
     getBudgetRequest,
+    createBudgetRequest,
+    updateBudgetRequest,
     deleteBugetRequest,
-    updateBudgetRequest
 } from '../api/presupuesto.api'
 
 export const BudgetContext = createContext()
@@ -19,14 +20,18 @@ export const useBudgets = () => {
 
 export const BudgetContextProvider = ({ children }) => {
 
-    const [presupuestos, setPresupuestos] = useState([])
+    const [budgets, setBudgets] = useState([])
 
-    async function loadPresupuestos (){
-        const response = await getBudgetsRequest()
-        setPresupuestos(response.data)
+    const getBudgets = async () => {
+        try {
+            const response = await getBudgetsRequest()
+            setBudgets(response.data)
+        } catch (error) {
+            console.log(error)
+        }
     }
 
-    const getPresupuesto = async id => {
+    const getBudget = async id => {
         try {
             const response = await getBudgetRequest(id)
             return response.data
@@ -35,17 +40,16 @@ export const BudgetContextProvider = ({ children }) => {
         }
     }
 
-    const deletePresupuesto = async (id) => {
+    const createBudget = async (values) => {
         try {
-            const response = await deleteBugetRequest(id)
+            const response = await createBudgetRequest(values);
             console.log(response)
-            setPresupuestos(presupuestos.filter(presupuesto => presupuesto.id !== id))
         } catch (error) {
             console.log(error)
         }
     }
 
-    const updatePresupuesto = async (id, newFields) => {
+    const updateBudget = async (id, newFields) => {
         try {
             const response = await updateBudgetRequest(id,newFields)
             console.log(response)
@@ -53,10 +57,27 @@ export const BudgetContextProvider = ({ children }) => {
             console.log(error)
         }
     }
+    
+    const deleteBudget = async (id) => {
+        try {
+            const response = await deleteBugetRequest(id)
+            console.log(response)
+            setBudgets(budgets.filter(budget => budget.id !== id))
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <BudgetContext.Provider 
-            value={{ presupuestos, loadPresupuestos, deletePresupuesto, getPresupuesto, updatePresupuesto }}
+            value={{ 
+                budgets, 
+                getBudgets,
+                getBudget, 
+                updateBudget,
+                createBudget, 
+                deleteBudget, 
+            }}
         > 
             { children } 
         </BudgetContext.Provider>

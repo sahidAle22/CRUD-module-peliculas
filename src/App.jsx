@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar'
-import BudgetPage from './pages/budgetPage'
+import BudgetPage from './pages/BudgetPage'
 import BudgetForm from './pages/BudgetForm'
 import BudgetInfo from './pages/BudgetInfo'
 import { BudgetContextProvider } from './context/BudgetContext'
