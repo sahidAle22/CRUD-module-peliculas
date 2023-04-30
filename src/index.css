@@ -1,0 +1,238 @@
+body {
+    background-color: #22254b;
+    color: white;
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+._Navbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #373b69;
+}
+
+ul {
+    display: flex;
+}
+
+li {
+    list-style-type: none;
+}
+
+li a {
+    text-decoration: none;
+    color: white;
+    padding: 2px 4px;
+    margin: 0 4px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.budget-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.budget {
+    background-color: #373b69;
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 1rem;
+    width: 300px;
+    padding-bottom: 1rem;
+}
+
+.budget-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+
+.tag {
+    background-color: #22254b;
+    border-radius: 5px;
+    padding: 1px 4px;
+}
+
+.tagGreen {
+    color: #7B9E89;
+}
+
+.tagOrange {
+    color: #F18805;
+}
+
+.tagRed {
+    color: #D95D39;
+}
+
+.btns-container {
+    display: flex;
+    justify-content: center;
+    padding: 0 1rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 4px 10px;
+    margin: 4px 4px;
+    border: none;
+    border-radius: 4px;
+}
+
+.edit {
+    background-color: #1EA896;
+}
+
+.delite {
+    background-color: #FF715B;
+}
+
+._budgetInfoContainer {
+    margin-top: 4rem;
+    margin: 4rem auto;
+    padding: 4rem 2rem;
+    background: #373b69;
+    width: 75%;
+    border-radius: 10px;
+}
+
+._header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1rem;
+}
+
+._header img {
+    min-width: 200px;
+    width: 30%;
+}
+
+._header a {
+    text-decoration: none;
+    color: white;
+}
+
+._formContainer {
+    margin: 1rem auto;
+    width: 45%;
+}
+
+._formContainer input[type="text"], 
+._formContainer input[type="number"]
+{
+    margin-top: 3px;
+    padding: 5px;
+    display: block;
+    width: 100%;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+._formContainer ._inputContainer {
+    margin-bottom: 10px;
+}
+
+._btnSubmit {
+    margin-top: 5px;
+    padding: 5px;
+    width: 100%;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #94A187;
+    color: white;
+    transition-property: background-color;
+    transition-duration: 300ms;
+}
+
+._btnSubmit:hover {
+    background-color: #29524A;
+}
+
+._Alert {
+    padding: 0.5rem;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+._error_Alert{
+    background-color: #F7717D;
+}
+
+._select {
+    width: 100%;
+    padding: 5px;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+}
+
+._genderContainer {
+    display: flex;
+}
+
+._gender {
+    margin: 2px 4px;
+    padding: 2px 4px;
+    border: none;
+    border-radius: 4px;
+}
+
+._genderAcción {
+    background-color: #B1B695;
+}
+
+._genderSuspenso {
+    background-color: #53917E;
+}
+
+._genderComedia {
+    background-color: #63535B;
+}
+
+._genderDrama {
+    background-color: #6D1A36;
+}
+
+._vista_general {
+    max-width: 100%;
+}
+
+input[type='checkbox']{
+    accent-color: #94A187;
+}
+
+._checkboxContainer {
+    margin: 0;
+}
+
+._acrtorTitle,
+._actorsList p{
+    margin-bottom: 0;
+}
+
+._actorsList {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1px;
+}
+@media only screen and (max-width: 709px) {
+    ._header {
+        flex-wrap: wrap;
+    }
+}
